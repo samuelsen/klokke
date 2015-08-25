@@ -1,0 +1,31 @@
+<html>
+    <head>
+    
+        <title>Jquery klokke test</title>
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    
+    </head>
+    <body>
+        <!--Class for timer info-->
+        <span class="remove"></span>
+        <!--End class for timer info-->
+        <script>
+        //get time when site loads
+        $.get( "klokke.php", function( data ) {
+                $( ".remove" )
+                    .append( "hour: " + data.hour + " " ) // John
+                    .append( "minute: " + data.minute + " ") //  2pm
+                    .append( "seconds: " + data.seconds + "<br />");
+            }, "json" );
+            
+        //Timer function to check for timer updates every  seconds
+        window.setInterval(function(){ 
+            $.get( "klokke.php", function( data ) {
+                $( ".remove" ).append( "hour: " + data.hour + " " ) // John
+                    .append( "minute: " + data.minute + " ") //  2pm
+                    .append( "seconds: " + data.seconds + " show/hide " + data.s + "<br />");
+            }, "json" );  
+        }, 1000);//set time in milliseconds 
+        </script>
+    </body>
+</html>

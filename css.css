@@ -1,0 +1,14 @@
+body{
+    margin: 0;
+    background-color: black;
+}
+.clock{
+    height: vw;
+    width: vw;
+    text-align: center;
+    color: #fff;
+    font-size: 1000%;
+    font-family: sans-serif;
+    padding-top: 15%;
+    font-weight: bolder;
+}
