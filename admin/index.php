@@ -42,63 +42,58 @@ date_default_timezone_set('Europe/Oslo');
     mysql_query($query);
         
     }
-?>
-
-<!doctype html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Adminpanel for talerklokke</title>
-<link rel="stylesheet" type="text/css" href="css/css.css">
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-<link rel="stylesheet" type="text/css" href="css/buttonstyles.css" />
-
-<script type="text/javascript" src="js/jquery-2.0.0.min.js"></script>
-    <style>
-    .hjem p{
-        color: black;   
-    }
-    .pad{
-        padding-top: 2em;   
-    }
-    .center{
-        text-align: center;
-    }
-    .button{
-        width: 100%;
-    }
-    </style>
-</head>
-<body>
-    <div class="content1">
-        <div class="hjem" >
-            <h1>Klokke</h1>
-            <?
+    
     $query = "SELECT * FROM clock";
     $result=mysql_query($query);
     $timer	= date(mysql_result( $result,0,"countTime"));
     $stamp = date(mysql_result( $result,0, "timeStamp"));
+    $show = mysql_result( $result,0, "show");
     $now = date("Y-m-d G:i:s");
 
     $start_date = new DateTime($now);
-    $since_start = $start_date->diff(new DateTime(date(mysql_result( $result,0, "countTime"))));
-    echo "<p>Time when set: $stamp</p><p>Timer set to expire: $timer</p><p>Remaining time: ".$since_start->format('%r%H:%I:%S')."</p>";
-            
-            ?>
-            
-            <form action="index.php" method="post" class="form">
-                    <p class="pad"><input class="center" type="text" name="m" placeholder="Input number of minutes" required ></p>
-                    <input type="hidden" name="Cmd" value="1" />
-				    <p><input type="Submit" value="Sett"></p>
-			        <p class="pad"><a type="button" href="index.php?sek=1" value="vis sekunder"> Vis sekunder </a></p>
-                    <p class="pad"><a type="button" href="index.php?sek=0" value="Skjul sekunder"> Skjul sekunder </a></p>
+    $since_start = $start_date->diff(new DateTime(date(mysql_result( $result,0, "countTime"))));    
+?>
+
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+<title>Adminpanel for talerklokke</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    
+</head>
+<body>
+    <div class="container-fluid text-center">
+        
+        <div class="page-header"><h1>Klokke</h1></div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <?php
+                    if($show == 1){
+                        echo '
+                        <div class="alert alert-success" role="alert">Viser sekunder</div>';
+                    } 
+                ?>
+            <p><h4>Tid:<!--?=$since_start->format('%r%H:%I:%S')?--></h4></p>
+                <iframe style="margin:auto;" src="klokke.html" height="40px;" width="75px;" frameborder="0"></iframe>
+            <form action="index.php" method="post">
+                <input type="hidden" name="Cmd" value="1" />
+                <div class="form-group">
+                    <input class="form-control text-center" type="text" name="m" placeholder="Input number of minutes" required >
+                </div>
+                    <button type="submit" class="btn btn-primary btn-block">Sett</button>
+			        <a type="button" class="btn btn-success  btn-block" href="index.php?sek=1">Vis sekunder</a>
+                    <a type="button" class="btn btn-danger  btn-block" href="index.php?sek=0">Skjul sekunder</a>
             </form>
-            
-            
+            </div>
         </div>
-        <span class="pad">
-            
-                </span>
     </div>
 </body>
 </html>
