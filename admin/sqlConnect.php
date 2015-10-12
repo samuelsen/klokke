@@ -1,7 +1,7 @@
 <?
-$username="simensamuelsen_"; 
-$password="Lc9Q2tCt"; 
-$database="simensamuelsen_";
+$username=[username]; 
+$password=[password]; 
+$database="[database]";
 $host="localhost";
 
 mysql_connect($host,$username,$password);
