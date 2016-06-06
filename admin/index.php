@@ -9,7 +9,8 @@ date_default_timezone_set('Europe/Oslo');
     $s =$_POST['s'];
     $cmd =$_POST['Cmd'];
     $sek =$_GET['sek'];
-    
+    $elapse = "";
+
     if($sek != "")
     {
         $query = "UPDATE `clock` SET `show` = $sek WHERE 1";
@@ -33,13 +34,14 @@ date_default_timezone_set('Europe/Oslo');
     
     if($cmd)
     {
-    $until = date('Y-m-d G:i:s ', time()+$h+$m+$s);
-    $today = date("H:i:s");
-    $date = date('Y-m-d G:i:s');
+        $until = date('Y-m-d G:i:s ', time()+$h+$m+$s);
+        $today = date("H:i:s");
+        $date = date('Y-m-d G:i:s');
+        $elapse = $until;
 
-    //echo "$until<br />$today<br />";
-    $query = "UPDATE clock SET timeStamp = \"$date\", countTime = \"$until\" WHERE 1";
-    mysql_query($query);
+        //echo "$until<br />$today<br />";
+        $query = "UPDATE clock SET timeStamp = \"$date\", countTime = \"$until\" WHERE 1";
+        mysql_query($query);
         
     }
     
@@ -83,6 +85,7 @@ date_default_timezone_set('Europe/Oslo');
                 ?>
             <p><h4>Tid:<!--?=$since_start->format('%r%H:%I:%S')?--></h4></p>
                 <iframe style="margin:auto;" src="klokke.html" height="40px;" width="75px;" frameborder="0"></iframe>
+            <p><?=$elapse?></p>
             <form action="index.php" method="post">
                 <input type="hidden" name="Cmd" value="1" />
                 <div class="form-group">
