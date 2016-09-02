@@ -50,13 +50,13 @@ date_default_timezone_set('Europe/Oslo');
     $json = json_decode(file_get_contents('test.json'), true);
    
 //set timer info
-    $timer	= date($json['timeEnd']);
-    $stamp = date($json["timeStart"]);
+    $timeEnd	= date($json['timeEnd']);
+    $timeStart = date($json["timeStart"]);
     $show = $json["show"];
     $now = date("Y-m-d G:i:s");
 
     $start_date = new DateTime($now);
-    $since_start = $start_date->diff(new DateTime($timer));    
+    $since_start = $start_date->diff(new DateTime($timeEnd));    
 ?>
 
     <!doctype html>
@@ -80,7 +80,11 @@ date_default_timezone_set('Europe/Oslo');
         <div class="container-fluid text-center">
 
             <div class="page-header">
-                <h1>Klokke</h1></div>
+                <h1>Klokke</h1>
+                <p>satt:
+                    <?php echo $timeStart; ?>
+                </p>
+            </div>
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
                     <?php
@@ -90,21 +94,57 @@ date_default_timezone_set('Europe/Oslo');
                     } 
                 ?>
                         <p>
-                            <h4>Tid:<!--?=$since_start->format('%r%H:%I:%S')?--></h4></p>
-                        <iframe style="margin:auto;" src="klokke.html" height="40px;" width="75px;" frameborder="0"></iframe>
-                        <p>
-                            <?=$elapse?>
-                        </p>
-                        <form action="index.php" method="post">
-                            <input type="hidden" name="Cmd" value="1" />
-                            <input type="hidden" name="sek" value="<? echo $show ?>">
-                            <div class="form-group">
-                                <input class="form-control text-center" type="text" name="m" placeholder="Input number of minutes" required>
+                            <h4>Tid:<span id="time"></span><!--?=$since_start->format('%r%H:%I:%S')?--></h4></p>
+                        <iframe id="iframId" scrolling="no" style="margin:auto; overflow-x: hidden; overflow-y:hidden;" src="klokke.html" height="40px;" width="75px;" frameborder="0"></iframe>
+                        <div class="row" style="padding-top: 2em;">
+                            <div class="col-xs-3 col-md-3">
+                                <form action="index.php" method="post">
+                                    <input type="hidden" name="Cmd" value="1" />
+                                    <input type="hidden" name="sek" value="<? echo $show ?>">
+                                    <input class="form-control text-center" type="hidden" name="m" value="5" required>
+                                    <button type="submit" class="btn btn-default btn-block">5 min</button>
+                                </form>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block">Sett</button>
-                            <a type="button" class="btn btn-success  btn-block" href="index.php?sek=1">Vis sekunder</a>
-                            <a type="button" class="btn btn-danger  btn-block" href="index.php?sek=0">Skjul sekunder</a>
-                        </form>
+                            <div class="col-xs-3 col-md-3">
+                                <form action="index.php" method="post">
+                                    <input type="hidden" name="Cmd" value="1" />
+                                    <input type="hidden" name="sek" value="<? echo $show ?>">
+                                    <input class="form-control text-center" type="hidden" name="m" value="10" required>
+                                    <button type="submit" class="btn btn-default btn-block">10 min</button>
+                                </form>
+                            </div>
+                            <div class="col-xs-3 col-md-3">
+                                <form action="index.php" method="post">
+                                    <input type="hidden" name="Cmd" value="1" />
+                                    <input type="hidden" name="sek" value="<? echo $show ?>">
+                                    <input class="form-control text-center" type="hidden" name="m" value="15" required>
+                                    <button type="submit" class="btn btn-default btn-block">15 min</button>
+                                </form>
+                            </div>
+                            <div class="col-xs-3 col-md-3">
+                                <form action="index.php" method="post">
+                                    <input type="hidden" name="Cmd" value="1" />
+                                    <input type="hidden" name="sek" value="<? echo $show ?>">
+                                    <input class="form-control text-center" type="hidden" name="m" value="35" required>
+                                    <button type="submit" class="btn btn-default btn-block">35 min</button>
+                                </form>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form action="index.php" method="post">
+                                    <input type="hidden" name="Cmd" value="1" />
+                                    <input type="hidden" name="sek" value="<? echo $show ?>">
+                                    <div class="form-group">
+                                        <input class="form-control text-center" type="text" name="m" placeholder="Input number of minutes" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block">Sett</button>
+                                    <a type="button" class="btn btn-success  btn-block" href="index.php?sek=1">Vis sekunder</a>
+                                    <a type="button" class="btn btn-danger  btn-block" href="index.php?sek=0">Skjul sekunder</a>
+                                </form>
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>
