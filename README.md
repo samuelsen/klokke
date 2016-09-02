@@ -9,5 +9,5 @@ countTime   |    Time
 timeStamp   |    Time
 show        |    int(1)
 
-NB! for now you'll need to do a first input manually before the clock will work.
-  Run this SQL: INSERT INTO clock ('countTime', 'timeStamp', 'show') VALUES (CURRENT_TIME(), CURRENT_TIME(), '1');
+
+

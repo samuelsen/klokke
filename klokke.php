@@ -1,34 +1,41 @@
 <?
-    //incllud connection to the database & set time zone
-    include 'admin/sqlConnect.php';
-    date_default_timezone_set('Europe/Oslo');
+//set time zone
+date_default_timezone_set('Europe/Oslo');
+     
+//read the json
+$json = json_decode(file_get_contents('admin/test.json'), true);
     
-    //query the database
-    $query = "SELECT * FROM clock";
-    $result= mysql_query($query);
+//set values
+$timeEnd	= date($json['timeEnd']);
+$show = $json["show"];
+$now = date("Y-m-d G:i:s");
     
-    //Get the database result
-    $timer	= date("Y-m-d G:i:s", strtotime(mysql_result( $result,0,"countTime")));
-    $stamp = date(mysql_result( $result,0, "timeStamp"));
-    $now = date("Y-m-d G:i:s");
-    $show = mysql_result($result, 0, "show");
-    
-    //Get the diff
-    $start_date = new DateTime($now);
-    $since_start = $start_date->diff(new DateTime($timer));
-            
-    $hidden = 0;
-    if($show == 0)
-    {
-        $hidden = 1;
-    }
-   //Build array for return
-    $array = [
-        "hour" => $since_start->format('%r%h'),
-        "minute" => $since_start->format('%r%i') + $hidden,
-        "seconds" => $since_start->format('%r%S'),
-        "show" => $show
-    ];
+//Calculate the diff
+$start_date = new DateTime($now);
+$since_start = $start_date->diff(new DateTime($timeEnd)); 
 
-    echo json_encode($array);
+//check the date to cinfirm we're on the right date
+$out = 0;
+if(date("md", $timerEnd) < date("md", $now) || date("md", $timerEnd) > date("md", $now)){
+    $out = 1;
+}
+
+
+//Add 1minute if we're hiding the sec.
+$hidden = 0;
+if($show == 0)
+{
+    $hidden = 1;
+}
+//Build array for return
+$array = [
+    "hour" => $since_start->format('%r%h'),
+    "minute" => $since_start->format('%r%i') + $hidden,
+    "seconds" => $since_start->format('%r%S'),
+    "show" => $show,
+    "outdatet" => $out
+];
+
+//convert to json
+echo json_encode($array);
 ?>

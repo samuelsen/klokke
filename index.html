@@ -40,6 +40,7 @@
 }</style>
     </head>
     <body>
+        <p style="color: white;"></p>
         <div id="clock" class="clock"></div>
             <script type="text/javascript">
                 var houres;
@@ -47,12 +48,14 @@
                 var seconds;
                 var show = 1;
                 var neg = 0;
+                var out = 0;
                 
                 $.get( "klokke.php", function( data ) {
                     houres = data.hour;
                     minute = data.minute;
                     seconds = data.seconds;
                     show = data.show;
+                    out = data.out;
                 }, "json" );
                                 
                  window.setInterval(function(){ 
@@ -61,6 +64,7 @@
                          minute = data.minute;
                          seconds = data.seconds;
                          show = data.show;
+                         out = data.out;
                      }, "json" );
                  }, 3000);
             
@@ -79,7 +83,7 @@
                     document.getElementById("clock").style.color = "white";                                                       
                 }
                 
-                if(minute > -5)
+                if(minute > -5 && out != 1)
                 {
                         seconds = seconds -1;
                     
