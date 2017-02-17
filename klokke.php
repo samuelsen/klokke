@@ -15,11 +15,7 @@ $start_date = new DateTime($now);
 $since_start = $start_date->diff(new DateTime($timeEnd)); 
 
 //check the date to cinfirm we're on the right date
-$out = 0;
-if(date("md", $timerEnd) < date("md", $now) || date("md", $timerEnd) > date("md", $now)){
-    $out = 1;
-}
-
+$out = -5;
 
 //Add 1minute if we're hiding the sec.
 $hidden = 0;
@@ -33,7 +29,7 @@ $array = [
     "minute" => $since_start->format('%r%i') + $hidden,
     "seconds" => $since_start->format('%r%S'),
     "show" => $show,
-    "outdatet" => $out
+    "out" => $out
 ];
 
 //convert to json

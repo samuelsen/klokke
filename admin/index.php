@@ -4,6 +4,10 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL ^ E_NOTICE);
 
+/*Regex info to make sure it's right ip*/
+$re = "/(185.55.106)/"; 
+$str = $_SERVER['REMOTE_ADDR']; 
+
 /*Set localtime*/
 date_default_timezone_set('Europe/Oslo');
 
@@ -85,6 +89,7 @@ date_default_timezone_set('Europe/Oslo');
                     <?php echo $timeStart; ?>
                 </p>
             </div>
+            <? if(true/*preg_match($re, $str)*/){?>
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
                     <?php
@@ -147,6 +152,7 @@ date_default_timezone_set('Europe/Oslo');
                         </div>
                 </div>
             </div>
+        <? } else { echo '<p>Du er ikke koblet på rett nett. Koble deg til "Filadelfia-teknikk" for å styre klokken.</p><p>Din ip: '.$str.'</p>'; } ?>
         </div>
     </body>
 
